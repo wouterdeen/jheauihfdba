@@ -1,0 +1,15 @@
+{
+  "name": "roodster",
+  "version": "1.0.0",
+  "description": "Roediementair Discord bot, copyright Roediementair Inc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wouter Deen",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "ms": "^2.1.1"
+  }
+}
