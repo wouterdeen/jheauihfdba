@@ -8,8 +8,10 @@ module.exports.run = async (bot, message, args) => {
   .setColor("#ef8e07")
   .setThumbnail(boticon)
   .addField("Naam", bot.user.username)
-  .addField("Geboren op", bot.user.createdAt)
-  .addField("Favoriete game", "Krullensimulator 3000");
+  .addField("Geboren op", "2/6/2018 om 13:58")
+  .addField("Gewicht bij geboorte", "2,73 megabytes")
+  .addField("Papa", "Brickconomy (Wouter)")
+  .addField("Versie", "v0.1 (Alpha)");
 
   return message.channel.send(botEmbed);
 }
