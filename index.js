@@ -108,6 +108,7 @@ bot.on("message", async message => {
       .addField("Reden", "Reclame maken (server invite)");
 
       botbesturing.send(inviteEmbed);
+      }
     }
 });
 
