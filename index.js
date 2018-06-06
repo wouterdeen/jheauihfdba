@@ -5,7 +5,9 @@ const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
 
 
-const trig = ['fuk', 'fuck', 'fkcing', 'nigg', 'neger', 'cunt' ,'cnut' ,'bitch' ,'dick' ,'d1ck' ,'pussy' ,'asshole' ,'b1tch' ,'b!tch', 'bitch' ,'blowjob' ,'cock' ,'c0ck' ,'kkr' ,'kanker' ,'tyfus' ,'tievus' ,'tiefus' ,'tering' ,'homo' ,'gay' ,'neuk' ,'neuke' ,'kankr' ,'kenker' ,'seks' ,'s3ks' ,'sperm' ,'orgasm' ,'fking' ,'fcking' ,'fckn', 'fuck', 'fucking' ,'fucken' ,'s3x' ,'j3w' ,'cameltoe' ,'oraal' ,'kutje' ,'orale' ,'klaarkomen' ,'cum' ,'anaal' ,'penis' ,'piemel' ,'piemol' ,'veluws college' ,'walterbosch'];
+const badwords = ['fuk', 'fuck', 'fkcing', 'nigg', 'neger', 'cunt' ,'cnut' ,'bitch' ,'dick' ,'d1ck' ,'pussy' ,'asshole' ,'b1tch' ,'b!tch', 'bitch' ,'blowjob' ,'cock' ,'c0ck' ,'kkr' ,'kanker' ,'tyfus' ,'tievus' ,'tiefus' ,'tering' ,'homo' ,'gay' ,'neuk' ,'neuke' ,'kankr' ,'kenker' ,'seks' ,'s3ks' ,'sperm' ,'orgasm' ,'fking' ,'fcking' ,'fckn', 'fuck', 'fucking' ,'fucken' ,'s3x' ,'j3w' ,'cameltoe' ,'oraal' ,'kutje' ,'orale' ,'klaarkomen' ,'cum' ,'anaal' ,'penis' ,'piemel' ,'piemol'];
+const invites = ['discord.gg/', 'discordapp.com/invite']
+const reclame = ['youtube.com', 'youtu.be', 'twitch.tv']
 
 fs.readdir("./Commands/", (err, files) => {
   if(err) console.log(err);
@@ -37,6 +39,12 @@ bot.on("message", async message => {
   if(message.author.bot) return;
   if (message.channel.type === "dm") return;
 
+  let twitchclips = message.guild.channels.find(`name`, "twitch-clips");
+  let memes = message.guild.channels.find(`name`, "memes");
+  let roods = message.guild.channels.find(`name`, "roods-official");
+  let subsnroods = message.guild.channels.find(`name`, "subs-en-roods");
+  let twitchsubs = message.guild.channels.find(`name`, "twitchsubs-official");
+
   let prefix = botconfig.prefix;
   let messageArray = message.content.split(" ")
   let cmd = messageArray[0];
@@ -45,19 +53,58 @@ bot.on("message", async message => {
   let commandFile = bot.commands.get(cmd.slice(prefix.length));
   if(commandFile) commandFile.run(bot,message,args);
 
-  if(trig.some(word => message.content.toLowerCase().includes(word))) {
-    message.delete();
-    message.author.send("Let een beetje op je taalgebruik. 😉");
+  if(badwords.some(word => message.content.toLowerCase().includes(word))) {
+    if(!message.member.hasPermission("ADMINISTRATOR")) {
+      message.delete();
+      message.author.send("Let een beetje op je taalgebruik. 😉");
 
-    let botbesturing = message.guild.channels.find(`name`, "botbesturing");
-    let swearEmbed = new Discord.RichEmbed()
-    .setDescription("Een bericht van een gebruiker is verwijderd.")
-    .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
-    .setColor("#ff0000")
-    .addField("Gebruiker", message.author.username)
-    .addField("Bericht", message);
+      let botbesturing = message.guild.channels.find(`name`, "botbesturing");
+      let swearEmbed = new Discord.RichEmbed()
+      .setDescription("Een bericht van een gebruiker is verwijderd.")
+      .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
+      .setColor("#ff0000")
+      .addField("Gebruiker", message.author.username)
+      .addField("Bericht", message)
+      .addField("Reden", "Ongepast taalgebruik");;
 
-    botbesturing.send(swearEmbed);
+      botbesturing.send(swearEmbed);
+    }
+  }
+  if(reclame.some(word => message.content.toLowerCase().includes(word))) {
+    if(!message.member.hasPermission("ADMINISTRATOR")) {
+      if(message.channel != twitchclips || memes || roods || subsnroods || twitchsubs) {
+        message.delete();
+        message.author.send("Geen reclame!");
+
+        let botbesturing = message.guild.channels.find(`name`, "botbesturing");
+        let reclameEmbed = new Discord.RichEmbed()
+        .setDescription("Een bericht van een gebruiker is verwijderd.")
+        .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
+        .setColor("#ff0000")
+        .addField("Gebruiker", message.author.username)
+        .addField("Bericht", message)
+        .addField("Reden", "Reclame maken (overig)");
+
+        botbesturing.send(reclameEmbed);
+      }
+    }
+  }
+  if(invites.some(word => message.content.toLowerCase().includes(word))) {
+    if(!message.member.hasPermission("ADMINISTRATOR")) {
+      message.delete();
+      message.author.send("Geen reclame!");
+
+      let botbesturing = message.guild.channels.find(`name`, "botbesturing");
+      let inviteEmbed = new Discord.RichEmbed()
+      .setDescription("Een bericht van een gebruiker is verwijderd.")
+      .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
+      .setColor("#ff0000")
+      .addField("Gebruiker", message.author.username)
+      .addField("Bericht", message)
+      .addField("Reden", "Reclame maken (server invite)");
+
+      botbesturing.send(inviteEmbed);
+    }
   }
 });
 
