@@ -109,6 +109,9 @@ bot.on("message", async message => {
 
       botbesturing.send(inviteEmbed);
     }
+    if(message.content.toLowerCase().includes("@Brickconomy#9429")) {
+      message.delete();
+      message.channel.send("Stop nou potverdorie met mij taggen!")
   }
 });
 
