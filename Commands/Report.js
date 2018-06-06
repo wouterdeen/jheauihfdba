@@ -1,4 +1,7 @@
 const Discord = require("discord.js");
+const fs = require("fs");
+const ms = require("ms");
+let reports = JSON.parse(fs.readFileSync("./Reports.json", "utf8"));
 
 function getDateTime() {
     var date = new Date();
@@ -33,6 +36,7 @@ module.exports.run = async (bot, message, args) => {
   if(!reportkanaal) {
     message.channel.send("Fout: error 1 (kon kanaal niet vinden).");
   } else {
+
     let reportEmbedUser = new Discord.RichEmbed()
     .setDescription("Je hebt net een gebruiker gerapporteerd. Let op: zorg dat je DM's open staan zodat wij je een berichtje kunnen sturen wanneer we meer informatie nodig hebben.")
     .setColor("#ff0000")
@@ -48,7 +52,26 @@ module.exports.run = async (bot, message, args) => {
     .addField("Desbetreffende gebruiker", `${rUser} met het ID ${rUser.id}`)
     .addField("Rapporteerder", message.author)
     .addField("Tijd van rapportage", getDateTime())
+    .addField("Kanaal", message.channel.toString())
     .addField("Reden", reason);
+
+    if(!reports[rUser.id]) reports[rUser.id] = {
+      gebruiker: rUser.id,
+      rapporteerder: message.author.id,
+      tijd: getDateTime(),
+      kanaal: message.channel.toString(),
+      reden: reason
+    };
+
+    reports[rUser.id].gebruiker;
+    reports[rUser.id].rapporteerder;
+    reports[rUser.id].tijd;
+    reports[rUser.id].kanaal;
+    reports[rUser.id].reden;
+
+    fs.writeFile("./Reports.json", JSON.stringify(reports), (err) => {
+      if (err) console.log(err);
+    });
 
     message.delete().catch(O_o=>{});
     message.author.send(reportEmbedUser);

@@ -53,6 +53,7 @@ bot.on("message", async message => {
   let commandFile = bot.commands.get(cmd.slice(prefix.length));
   if(commandFile) commandFile.run(bot,message,args);
 
+  //Chat auto mod systeem
   if(badwords.some(word => message.content.toLowerCase().includes(word))) {
     if(!message.member.hasPermission("ADMINISTRATOR")) {
       message.delete();
@@ -64,6 +65,7 @@ bot.on("message", async message => {
       .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
       .setColor("#ff0000")
       .addField("Gebruiker", message.author.username)
+      .addField("Kanaal", message.channel.toString())
       .addField("Bericht", message)
       .addField("Reden", "Ongepast taalgebruik");;
 
@@ -82,6 +84,7 @@ bot.on("message", async message => {
         .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
         .setColor("#ff0000")
         .addField("Gebruiker", message.author.username)
+        .addField("Kanaal", message.channel.toString())
         .addField("Bericht", message)
         .addField("Reden", "Reclame maken (overig)");
 
@@ -100,6 +103,7 @@ bot.on("message", async message => {
       .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
       .setColor("#ff0000")
       .addField("Gebruiker", message.author.username)
+      .addField("Kanaal", message.channel.toString())
       .addField("Bericht", message)
       .addField("Reden", "Reclame maken (server invite)");
 

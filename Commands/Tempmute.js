@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const ms = require("ms");
 
 module.exports.run = async (bot, message, args) => {
+  if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Ik heb zo'n flauw gevoel dat jij geen Moderator bent!");
   let botbesturing = message.guild.channels.find(`name`, "botbesturing");
   if(message.channel == botbesturing) {
     let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
