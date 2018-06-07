@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const ms = require("ms");
-let reports = JSON.parse(fs.readFileSync("./Reports.json", "utf8"));
 
 function getDateTime() {
     var date = new Date();
@@ -27,6 +26,7 @@ function getDateTime() {
 }
 
 module.exports.run = async (bot, message, args) => {
+  let reports = JSON.parse(fs.readFileSync("./Reports.json", "utf8"));
   let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
   let reportkanaal = message.guild.channels.find(`name`, "reports");
   if(!rUser) return message.channel.send("Er is geen gebruiker opgegeven/de opgegeven gebruiker is onvindbaar. Gebruik: '!report <persoon> <reden>'.");
