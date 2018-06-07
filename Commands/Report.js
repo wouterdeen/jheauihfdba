@@ -28,7 +28,7 @@ function getDateTime() {
 
 module.exports.run = async (bot, message, args) => {
   let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-  let reportkanaal = message.guild.channels.find(`name`, "moderatorchat");
+  let reportkanaal = message.guild.channels.find(`name`, "reports");
   if(!rUser) return message.channel.send("Er is geen gebruiker opgegeven/de opgegeven gebruiker is onvindbaar. Gebruik: '!report <persoon> <reden>'.");
   let reason = args.join(" ").slice(22);
   if(!reason) return message.channel.send("Je moet een reden opgeven. Gebruik: '!report <persoon> <reden>'.");
@@ -72,6 +72,14 @@ module.exports.run = async (bot, message, args) => {
     fs.writeFile("./Reports.json", JSON.stringify(reports), (err) => {
       if (err) console.log(err);
     });
+
+    setTimeout(function(){
+      if(![rUser.id]) {
+        console.log("De recent nieuwe informatie (reports) is NIET naar 'Reports.json' geschreven!");
+      } else {
+        console.log("De recent nieuwe informatie (reports) is succesvol naar 'Reports.json' geschreven!");
+      }
+    }, 400);
 
     message.delete().catch(O_o=>{});
     message.author.send(reportEmbedUser);

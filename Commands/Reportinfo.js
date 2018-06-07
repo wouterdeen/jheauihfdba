@@ -1,12 +1,15 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const ms = require("ms");
-let reports = JSON.parse(fs.readFileSync("./Reports.json", "utf8"))
 
 module.exports.run = async (bot, message, args) => {
+  let reports = JSON.parse(fs.readFileSync("./Reports.json", "utf8"));
   let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+  if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send("Ik heb zo'n flauw gevoel dat jij geen Moderator bent!");
   let reportkanaal = message.guild.channels.find(`name`, "moderatorchat");
   if(!rUser) return message.channel.send("Er is geen gebruiker opgegeven/de opgegeven gebruiker is onvindbaar. Gebruik: '!report <persoon> <reden>'.");
+
+  //refresh file data
 
   if(!reports[rUser.id]) return message.channel.send("Deze gebruiker staat niet in de database en is dus nog nooit gereport.");
 
