@@ -26,18 +26,18 @@ fs.readdir("./Commands/", (err, files) => {
 bot.on("ready", async () => {
   console.log("Bot is online!");
   bot.user.setActivity("Roediementair", {type: "WATCHING"});
-  bot.user.setStatus("dnd")
+  /*/bot.user.setStatus("dnd")
   .then(console.log)
-  .catch(console.error);
+  .catch(console.error);/*/
 });
 
 bot.on("guildMemberAdd", member => {
-  member.send("Welkom op de Roediementair Discord server! Ik ben de enige echte Roodster bot, en vanaf nu jouw persoonlijke assistent. 😎 Lees #welkom voordat je begint.");
+  member.send("Welkom op de Roediementair Discord server! Ik ben de enige echte Roodster bot, en vanaf nu jouw persoonlijke assistent. 😎 Lees #welkom voordat je begint.\n\nHulp nodig? Typ '!help' in een willekeurig chatkanaal op onze server!");
 });
 
 bot.on("message", async message => {
   if(message.author.bot) return;
-  if (message.channel.type === "dm") return;
+  if (message.channel.type === "dm") return message.channel.send("Je kunt mij helaas geen DM's sturen. Heb je een vraag? Typ dan '!help' in een chatkanaal.");
 
   let twitchclips = message.guild.channels.find(`name`, "twitch-clips");
   let memes = message.guild.channels.find(`name`, "memes");
@@ -64,7 +64,7 @@ bot.on("message", async message => {
       .setDescription("Een bericht van een gebruiker is verwijderd.")
       .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
       .setColor("#ff0000")
-      .addField("Gebruiker", message.author.username)
+      .addField("Gebruiker", `<@${message.author.id}>`)
       .addField("Kanaal", message.channel.toString())
       .addField("Bericht", message)
       .addField("Reden", "Ongepast taalgebruik");;
@@ -83,7 +83,7 @@ bot.on("message", async message => {
         .setDescription("Een bericht van een gebruiker is verwijderd.")
         .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
         .setColor("#ff0000")
-        .addField("Gebruiker", message.author.username)
+        .addField("Gebruiker", `<@${message.author.id}>`)
         .addField("Kanaal", message.channel.toString())
         .addField("Bericht", message)
         .addField("Reden", "Reclame maken (overig)");
@@ -102,7 +102,7 @@ bot.on("message", async message => {
       .setDescription("Een bericht van een gebruiker is verwijderd.")
       .setThumbnail("http://www.mediafire.com/convkey/ebb1/slt6kx95avxjyfszg.jpg")
       .setColor("#ff0000")
-      .addField("Gebruiker", message.author.username)
+      .addField("Gebruiker", `<@${message.author.id}>`)
       .addField("Kanaal", message.channel.toString())
       .addField("Bericht", message)
       .addField("Reden", "Reclame maken (server invite)");
